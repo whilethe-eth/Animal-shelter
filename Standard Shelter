@@ -1,0 +1,60 @@
+ import random
+
+class Animal:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def make_sound(self):
+        raise NotImplementedError("Subclass must implement abstract method")
+
+class Dog(Animal):
+    def make_sound(self):
+        return "Woof!"
+
+class Cat(Animal):
+    def make_sound(self):
+        return "Meow!"
+
+class AnimalShelter:
+    def __init__(self):
+        self.animals = []
+
+    def add_animal(self, animal):
+        self.animals.append(animal)
+
+    def adopt_animal(self, animal_type):
+        for i, animal in enumerate(self.animals):
+            if isinstance(animal, animal_type):
+                return self.animals.pop(i)
+        return None
+
+    def show_animals(self):
+        for animal in self.animals:
+            print(f"{animal.name}, Age: {animal.age}, Sound: {animal.make_sound()}")
+
+def main():
+    shelter = AnimalShelter()
+    
+    # Добавляем животных в приют
+    shelter.add_animal(Dog("Rex", 3))
+    shelter.add_animal(Cat("Whiskers", 2))
+    shelter.add_animal(Dog("Buddy", 5))
+    
+    # Отображаем животных в приюте
+    print("Animals in the shelter:")
+    shelter.show_animals()
+    
+    # Пробуем усыновить собаку
+    adopted_dog = shelter.adopt_animal(Dog)
+    if adopted_dog:
+        print(f"Adopted: {adopted_dog.name}, Age: {adopted_dog.age}, Sound: {adopted_dog.make_sound()}")
+    else:
+        print("No dog available for adoption")
+
+    # Проверяем оставшихся животных
+    print("\nAnimals remaining in the shelter:")
+    shelter.show_animals()
+
+if __name__ == "__main__":
+    main()
